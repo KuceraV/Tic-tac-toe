@@ -78,26 +78,24 @@ def write_out_playground(board: list):
 
 
 def game(board):
-
-    while " " in board and win_conditions(board, "x") and win_conditions(board, "o"):
-        player_move(board)
+    symbols = ["o", "x"]
+    players = {"player_o": "o", "player_x": "x"}
+    while " " in board and win_conditions(board, symbols[0]) and win_conditions(board, symbols[1]):
+        player_move(board, symbols, players)
         if " " not in board:
             print("Tie")
             break
-        if not win_conditions(board, "x") and not win_conditions(board, "o"):
+        if not win_conditions(board, symbols[0]) and not win_conditions(board, symbols[1]):
             break
 
 
-def player_move(board: list):
+def player_move(board: list, symbols, players):
     """
     Function as player to insert number of the move, where to place the symbol.
     If the input is not digit, function warn player to insert only integer
     If the input is out of board range, function warn player
     If the position is already occupied , function warn player
     """
-
-    symbols = ["o", "x"]
-    players = {"player_o": "o", "player_x": "x"}
 
     for move in players:
         index = input(f"{move} | Please enter your move number: ")
