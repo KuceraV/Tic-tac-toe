@@ -64,7 +64,6 @@ def write_out_playground(board: list):
     | | | |
     +---+---+---+
     """
-    # os.system("cls") - bad position - delete everything even the introduction
 
     separator_grid = "+---+---+---+"
 
@@ -77,11 +76,16 @@ def write_out_playground(board: list):
     print(separator_grid)
 
 
-def game(board):
+def game(board: list):
+    """
+    Function control the winning conditions. If one of the player wins, it breaks the cycle
+    and thus the game is ended. If the winning condition is not met and all moves are taken,
+    it is also ended the game as a tie.
+    """
     symbols = ["o", "x"]
     players = {"player_o": "o", "player_x": "x"}
     while " " in board and win_conditions(board, symbols[0]) and win_conditions(board, symbols[1]):
-        player_move(board, symbols, players)
+        player_move(board, players)
         if " " not in board:
             print("Tie")
             break
@@ -89,14 +93,14 @@ def game(board):
             break
 
 
-def player_move(board: list, symbols, players):
+def player_move(board: list, players: dict):
     """
-    Function as player to insert number of the move, where to place the symbol.
+    Function ask player to insert number of the move, where to place the symbol.
     If the input is not digit, function warn player to insert only integer
     If the input is out of board range, function warn player
     If the position is already occupied , function warn player
     """
-
+    separator = "=" * 40
     for move in players:
         index = input(f"{move} | Please enter your move number: ")
 
@@ -106,46 +110,66 @@ def player_move(board: list, symbols, players):
             if index not in range(1, 10):
                 print("Move number is out of range of the board!")
 
-            elif board[index - 1] not in symbols:
+            elif board[index - 1] == " ":
                 board[index - 1] = players[move]
                 write_out_playground(board)
                 if not win_conditions(board, players[move]):
-                    print(f"Congratulations, the player {players[move]} WON!")
+                    print(separator,
+                          f"Congratulations, the player {players[move]} WON!",
+                          separator,
+                          sep="\n"
+                          )
                     break
 
             else:
                 print("Position is already taken!")
+
         else:
             print("Move number has to be integer!")
 
 
 def win_conditions(board: list, symbol: str) -> bool:
-    win = True
+    """
+    function control the winning condition. The winning condition is when one of the symbols fill
+    one of the rows or columns or diagonals.
+    When one of these conditions is True, the game is ended
+
+    +---+---+---+
+    | |x| |
+    +---+---+---+
+    | |x| |
+    +---+---+---+
+    | |x| |
+    +---+---+---+
+    game_on = False
+    """
+    game_on = True
     if symbol == board[0] == board[1] == board[2]:
-        win = False
+        game_on = False
 
     elif symbol == board[3] == board[4] == board[5]:
-        win = False
+        game_on = False
 
     elif symbol == board[6] == board[7] == board[8]:
-        win = False
+        game_on = False
 
     elif symbol == board[0] == board[3] == board[6]:
-        win = False
+        game_on = False
 
     elif symbol == board[1] == board[4] == board[7]:
-        win = False
+        game_on = False
 
     elif symbol == board[2] == board[5] == board[8]:
-        win = False
+        game_on = False
 
     elif symbol == board[0] == board[4] == board[8]:
-        win = False
+        game_on = False
 
     elif symbol == board[2] == board[4] == board[6]:
-        win = False
+        game_on = False
 
-    return win
+    return game_on
 
 
-main()
+if __name__ == "__main__":
+    main()
