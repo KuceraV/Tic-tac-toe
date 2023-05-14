@@ -80,13 +80,12 @@ def game(board: list):
     and thus the game is ended. If the winning condition is not met and all moves are taken,
     it is also ended the game as a tie.
     """
+
     players = {"player_o": "o", "player_x": "x"}
-    while " " in board and win_conditions(board, "o") and win_conditions(board, "x"):
+    while " " in board:
         player_move(board, players)
         if " " not in board:
             print("Tie")
-            break
-        if not win_conditions(board, "o") and not win_conditions(board, "x"):
             break
 
 
@@ -99,30 +98,34 @@ def player_move(board: list, players: dict):
     """
     separator = "=" * 40
     for move in players:
-        index = input(f"{move} | Please enter your move number: ")
+        player_input = True
+        while player_input:
 
-        if index.isdigit():
-            index = int(index)
+            index = input(f"{move} | Please enter your move number: ")
 
-            if index not in range(1, 10):
-                print("Move number is out of range of the board!")
+            if index.isdigit():
+                index = int(index)
 
-            elif board[index - 1] == " ":
-                board[index - 1] = players[move]
-                write_out_playground(board)
-                if not win_conditions(board, players[move]):
-                    print(separator,
-                          f"Congratulations, the player {players[move]} WON!",
-                          separator,
-                          sep="\n"
-                          )
-                    break
+                if index not in range(1, 10):
+                    print("Move number is out of range of the board!")
+
+                elif board[index - 1] == " ":
+                    player_input = False
+                    board[index - 1] = players[move]
+                    write_out_playground(board)
+                    if not win_conditions(board, players[move]):
+                        print(separator,
+                              f"Congratulations, the player {players[move]} WON!",
+                              separator,
+                              sep="\n"
+                              )
+                        quit()
+
+                else:
+                    print("Position is already taken!")
 
             else:
-                print("Position is already taken!")
-
-        else:
-            print("Move number has to be integer!")
+                print("Move number has to be integer!")
 
 
 def win_conditions(board: list, symbol: str) -> bool:
