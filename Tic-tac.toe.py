@@ -38,7 +38,7 @@ marks in a: """,
 
 
 def playground() -> list:
-    """"
+    """
     Function define the playground  with 9 values(position) of Tic-Tac-Toe as a list
     Space is set as default value in playground, and it is replaced by the symbol
     input of the player.
@@ -51,7 +51,7 @@ def playground() -> list:
 
 
 def write_out_playground(board: list):
-    """"
+    """
     function formats the playground to 3 x 3 grid and show current status:
 
     expamle:
