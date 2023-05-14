@@ -80,14 +80,13 @@ def game(board: list):
     and thus the game is ended. If the winning condition is not met and all moves are taken,
     it is also ended the game as a tie.
     """
-    symbols = ["o", "x"]
     players = {"player_o": "o", "player_x": "x"}
-    while " " in board and win_conditions(board, symbols[0]) and win_conditions(board, symbols[1]):
+    while " " in board and win_conditions(board, "o") and win_conditions(board, "x"):
         player_move(board, players)
         if " " not in board:
             print("Tie")
             break
-        if not win_conditions(board, symbols[0]) and not win_conditions(board, symbols[1]):
+        if not win_conditions(board, "o") and not win_conditions(board, "x"):
             break
 
 
