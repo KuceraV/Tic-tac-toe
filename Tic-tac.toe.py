@@ -5,8 +5,6 @@ email: vojtechkuc@gmail.com
 discord: Vojta K.
 """
 
-import os
-
 
 def main():
     board = playground()
