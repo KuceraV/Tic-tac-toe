@@ -15,7 +15,7 @@ def main():
 
 def welcome_text():
     """
-    function welcome the user a briefly introduce the rules of the game
+    function welcome the users a briefly introduce the rules of the game
     """
     separator = "=" * 40
     print(
@@ -37,20 +37,19 @@ marks in a: """,
 
 def playground() -> list:
     """
-    Function define the playground  with 9 values(position) of Tic-Tac-Toe as a list
-    Space is set as default value in playground, and it is replaced by the symbol
-    input of the player.
+    Function defines the playground  with 9 values(position) of Tic-Tac-Toe as a list.
+    Space is set as default value in playground.
 
-    example: player_x input: 2
-    [  ,"x" ,  ,  ,  ,  ,  ,  ,  ]
+    example:
+    [" " , " " ," "  ," "  ," "  ," "  ," "  ," "  , " " ]
     """
-    board = [" " for i in range(10)]
+    board = [" " for i in range(9)]
     return board
 
 
 def write_out_playground(board: list):
     """
-    function formats the playground to 3 x 3 grid and show current status:
+    function formats the playground to 3 x 3 grid:
 
     expamle:
     [  ,"x" ,  ,  ,  ,  ,  ,  ,  ]
@@ -76,17 +75,21 @@ def write_out_playground(board: list):
 
 def game(board: list):
     """
-    Function control the winning conditions. If one of the player wins, it breaks the cycle
-    and thus the game is ended. If the winning condition is not met and all moves are taken,
-    it is also ended the game as a tie.
+    Function activates the player's moves. If the winning condition is not met and all moves are taken,
+    it is ended the game as a tie.
     """
-
+    separator = "=" * 40
     players = {"player_o": "o", "player_x": "x"}
     while " " in board:
         player_move(board, players)
-        if " " not in board:
-            print("Tie")
-            break
+
+    else:
+        print(
+            separator,
+            "Tie, Game over!",
+            separator,
+            sep="\n"
+        )
 
 
 def player_move(board: list, players: dict):
@@ -95,13 +98,17 @@ def player_move(board: list, players: dict):
     If the input is not digit, function warn player to insert only integer
     If the input is out of board range, function warn player
     If the position is already occupied , function warn player
+    If the winning conditions are fulfilled, it ends the game
+    If the winning condition is not met and all moves are taken, it breaks the cycle with players input.
     """
     separator = "=" * 40
     for move in players:
         player_input = True
-        while player_input:
+        while player_input and " " in board:
 
+            print(separator)
             index = input(f"{move} | Please enter your move number: ")
+            print(separator)
 
             if index.isdigit():
                 index = int(index)
@@ -113,13 +120,9 @@ def player_move(board: list, players: dict):
                     player_input = False
                     board[index - 1] = players[move]
                     write_out_playground(board)
+
                     if not win_conditions(board, players[move]):
-                        print(separator,
-                              f"Congratulations, the player {players[move]} WON!",
-                              separator,
-                              sep="\n"
-                              )
-                        quit()
+                        game_over(players[move])
 
                 else:
                     print("Position is already taken!")
@@ -132,7 +135,6 @@ def win_conditions(board: list, symbol: str) -> bool:
     """
     function control the winning condition. The winning condition is when one of the symbols fill
     one of the rows or columns or diagonals.
-    When one of these conditions is True, the game is ended
 
     +---+---+---+
     | |x| |
@@ -143,6 +145,7 @@ def win_conditions(board: list, symbol: str) -> bool:
     +---+---+---+
     game_on = False
     """
+
     game_on = True
     if symbol == board[0] == board[1] == board[2]:
         game_on = False
@@ -169,6 +172,20 @@ def win_conditions(board: list, symbol: str) -> bool:
         game_on = False
 
     return game_on
+
+
+def game_over(players_move: str):
+    """
+    function ended the game when winning conditions are fulfilled and print the winner.
+    """
+    separator = "=" * 40
+    print(
+        separator,
+        f"Congratulations, the player {players_move} WON!",
+        separator,
+        sep="\n"
+    )
+    quit()
 
 
 if __name__ == "__main__":
